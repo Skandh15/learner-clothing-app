@@ -4,11 +4,11 @@ import { AuthContext } from '../../contexts/Auth.context.jsx';
 import { useSetState } from 'react-use';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-import { SignUpContainer } from './sign-up-form.styles';
+import { SignUpContainer, UserErrorMessage } from './sign-up-form.styles';
 
 const initialState = {
   firstName: '',
-  lastName:'',
+  lastName: '',
   email: '',
   password: ''
 };
@@ -16,7 +16,7 @@ const initialState = {
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { state: ContextState, signUp } = useContext(AuthContext);
-  const { isLoggedIn } = ContextState;
+  const { isLoggedIn, loginError } = ContextState;
   const [state, setState] = useSetState(initialState);
 
   useEffect(() => {
@@ -35,6 +35,9 @@ const SignUpForm = () => {
 
   return (
     <SignUpContainer>
+      {
+        loginError ? (<UserErrorMessage>{loginError}</UserErrorMessage>) : (<></>)
+      }
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleChange}>
@@ -42,7 +45,7 @@ const SignUpForm = () => {
           label='First Name'
           type='text'
           required
-          onChange={(e)=>setState({firstName : e.target.value})}
+          onChange={(e) => setState({ firstName: e.target.value })}
           name='firstName'
           value={state.firstName}
         />
@@ -50,7 +53,7 @@ const SignUpForm = () => {
           label='Last Name'
           type='text'
           required
-          onChange={(e)=>setState({lastName : e.target.value})}
+          onChange={(e) => setState({ lastName: e.target.value })}
           name='lastName'
           value={state.lastName}
         />
@@ -58,7 +61,7 @@ const SignUpForm = () => {
           label='Email'
           type='email'
           required
-          onChange={(e)=>setState({email : e.target.value})}
+          onChange={(e) => setState({ email: e.target.value })}
           name='email'
           value={state.email}
         />
@@ -66,7 +69,7 @@ const SignUpForm = () => {
           label='Password'
           type='password'
           required
-          onChange={(e)=>setState({password : e.target.value})}
+          onChange={(e) => setState({ password: e.target.value })}
           name='password'
           value={state.password}
         />

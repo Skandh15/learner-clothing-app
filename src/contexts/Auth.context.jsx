@@ -14,17 +14,17 @@ const initialState = {
 export const ContextProvider = props => {
   const [state, setState] = useSetState(initialState);
 
-  const setLoginPending = (isLoginPending) => setState({isLoginPending});
-  const setLoginSuccess = (isLoggedIn) => setState({isLoggedIn});
-  const setLoginError = (loginError) => setState({loginError});
-  const setUserName = (userDisplayName) => setState({userDisplayName});
+  const setLoginPending = (isLoginPending) => setState({ isLoginPending });
+  const setLoginSuccess = (isLoggedIn) => setState({ isLoggedIn });
+  const setLoginError = (loginError) => setState({ loginError });
+  const setUserName = (userDisplayName) => setState({ userDisplayName });
 
   const login = (email, password) => {
     setLoginPending(true);
     setLoginSuccess(false);
     setLoginError(null);
 
-    fetchLogin( email, password, error => {
+    fetchLogin(email, password, error => {
       setLoginPending(false);
 
       if (!error) {
@@ -35,21 +35,20 @@ export const ContextProvider = props => {
     })
   }
 
-  const signUp = (firstName,lastName,email,password) =>{
+  const signUp = (firstName, lastName, email, password) => {
     setLoginPending(true);
-    setLoginSuccess(true);
     setLoginError(null);
     setUserName('');
-    userSignUp(firstName,lastName,email,password, response => {
-        setLoginPending(false);
-        if (200 === response.status) {
-          setLoginSuccess(true);
-          setUserName(response.data.firstName);
-          
-        } else {
-          setLoginError(response.message);
-        }
-      })
+    userSignUp(firstName, lastName, email, password, response => {
+      setLoginPending(false);
+      if (200 === response.status) {
+        setLoginSuccess(true);
+        setUserName(response.data.firstName);
+
+      } else {
+        setLoginError(response);
+      }
+    })
   }
 
   const logout = () => {
@@ -73,7 +72,7 @@ export const ContextProvider = props => {
 };
 
 // fake login
-const fetchLogin = (email, password, callback) => 
+const fetchLogin = (email, password, callback) =>
   setTimeout(() => {
     if (email === 'admin' && password === 'admin') {
       return callback(null);
@@ -82,24 +81,23 @@ const fetchLogin = (email, password, callback) =>
     }
   }, 1000);
 
-  const userSignUp = async (firstName, lastName, email, password, callback) => {
-    try {
-      console.log();
-      const response = await axios.post('http://localhost:8232/api/users', {
-        firstName,
-        lastName,
-        email,
-        password,
-      });
-      if (callback) {
-        console.log(response);
-        
-        callback(response);
-      }
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      throw new Error(error.message);
+const userSignUp = async (firstName, lastName, email, password, callback) => {
+  try {
+    const response = await axios.post('http://localhost:8232/api/users', {
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+    if (callback) {
+      callback(response);
     }
-  };
-  
+    return response.data;
+  } catch (error) {
+    if (error.response.data.message) {
+      return callback(error.response.data.message);
+    } else {
+      return callback(new Error(error.message))
+    }
+  }
+};

@@ -9,3 +9,9 @@ export const SignUpContainer = styled.div`
     margin: 10px 0;
   }
 `;
+
+export const UserErrorMessage = styled.div`
+  color: red;
+  font-weight: bolder;
+  font-size: x-large;
+`;
