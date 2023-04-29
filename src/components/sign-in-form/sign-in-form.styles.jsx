@@ -14,3 +14,9 @@ export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const UserErrorMessage = styled.div`
+  color: red;
+  font-weight: bolder;
+  font-size: x-large;
+`;

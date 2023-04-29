@@ -16,7 +16,7 @@ const initialState = {
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { state: ContextState, signUp } = useContext(AuthContext);
-  const { isLoggedIn, loginError } = ContextState;
+  const { isLoggedIn, signUpError } = ContextState;
   const [state, setState] = useSetState(initialState);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const SignUpForm = () => {
   return (
     <SignUpContainer>
       {
-        loginError ? (<UserErrorMessage>{loginError}</UserErrorMessage>) : (<></>)
+        signUpError ? (<UserErrorMessage>{signUpError}</UserErrorMessage>) : (<></>)
       }
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>

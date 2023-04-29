@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8132/api/categories')
+    fetch('http://localhost:8132/api/categories/get-category-details')
       .then(response => response.json())
       .then(data => {
         this.setState({

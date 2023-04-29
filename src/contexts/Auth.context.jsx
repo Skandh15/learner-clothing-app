@@ -8,6 +8,7 @@ const initialState = {
   isLoggedIn: false,
   isLoginPending: false,
   loginError: null,
+  signUpError: null,
   userDisplayName: ''
 }
 
@@ -17,20 +18,23 @@ export const ContextProvider = props => {
   const setLoginPending = (isLoginPending) => setState({ isLoginPending });
   const setLoginSuccess = (isLoggedIn) => setState({ isLoggedIn });
   const setLoginError = (loginError) => setState({ loginError });
+  const setSignUpError = (signUpError) => setState({ signUpError });
   const setUserName = (userDisplayName) => setState({ userDisplayName });
 
   const login = (email, password) => {
     setLoginPending(true);
-    setLoginSuccess(false);
     setLoginError(null);
+    setUserName('');
 
-    fetchLogin(email, password, error => {
+    userLogIn(email, password, response => {
       setLoginPending(false);
-
-      if (!error) {
+      if (200 === response.status) {
         setLoginSuccess(true);
+        setUserName(response.data.firstName);
+
       } else {
-        setLoginError(error);
+        console.log(response)
+        setLoginError(response.message);
       }
     })
   }
@@ -46,7 +50,7 @@ export const ContextProvider = props => {
         setUserName(response.data.firstName);
 
       } else {
-        setLoginError(response);
+        setSignUpError(response);
       }
     })
   }
@@ -71,15 +75,23 @@ export const ContextProvider = props => {
   );
 };
 
-// fake login
-const fetchLogin = (email, password, callback) =>
-  setTimeout(() => {
-    if (email === 'admin' && password === 'admin') {
-      return callback(null);
-    } else {
-      return callback(new Error('Invalid email and password'));
+const userLogIn = async (email, password, callback) => {
+  try {
+    const response = await axios.get(`http://localhost:8232/api/users/getDetails?email=${email}&password=${password}`);
+    if (callback) {
+      console.log(response);
+      callback(response);
     }
-  }, 1000);
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    if (error.response.data.message) {
+      return callback(new Error(error.response.data.message));
+    } else {
+      return callback(new Error(error.message));
+    }
+  }
+};
 
 const userSignUp = async (firstName, lastName, email, password, callback) => {
   try {
