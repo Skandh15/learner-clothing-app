@@ -1,5 +1,6 @@
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { AuthContext } from '../../contexts/Auth.context';
 import {
   BackgroundImage,
   Body,
@@ -8,9 +9,18 @@ import {
 
 const DirectoryItem = ({ category }) => {
   const { categoryImageUrl, categoryTitle, categoryRoute } = category;
+  const { state: ContextState } = useContext(AuthContext);
+  const { isLoggedIn } = ContextState;
   const navigate = useNavigate();
 
-  const onNavigateHandler = () => navigate(categoryRoute);
+  const onNavigateHandler = () => {
+    if (isLoggedIn) {
+      navigate(categoryRoute);
+    } else {
+      navigate('/auth');
+    }
+  };
+  
 
   return (
     <DirectoryItemContainer onClick={onNavigateHandler}>
