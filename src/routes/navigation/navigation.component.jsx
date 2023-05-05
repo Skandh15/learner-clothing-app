@@ -56,7 +56,7 @@ const onLogout = (e) => {
           )}
           {
             isLoggedIn ? 
-              (<NavLink to='/orders'>My Orders</NavLink>)
+              (<NavLink to='/order'>My Orders</NavLink>)
             :(<></>)
           }
           <CartIcon />

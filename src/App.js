@@ -6,6 +6,7 @@ import Navigation from './routes/navigation/navigation.component';
 import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
+import Order from './routes/order/order.component';
 
 class App extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ class App extends React.Component {
           <Route path='shop/*' element={<Shop />} />
           <Route path='auth' element={<Authentication />} />
           <Route path='checkout' element={<Checkout />} />
+          <Route path='order' element={<Order />} />
         </Route>
       </Routes>
     );
