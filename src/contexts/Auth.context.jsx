@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSetState } from 'react-use';
 import axios from 'axios';
+import { CartContext } from './cart.context'; // import CartContext here
 
 export const AuthContext = React.createContext(null);
 
@@ -14,6 +15,7 @@ const initialState = {
 
 export const ContextProvider = props => {
   const [state, setState] = useSetState(initialState);
+  const { clearCart } = React.useContext(CartContext); // get clearCart function from CartContext
 
   const setLoginPending = (isLoginPending) => setState({ isLoginPending });
   const setLoginSuccess = (isLoggedIn) => setState({ isLoggedIn });
@@ -59,6 +61,7 @@ export const ContextProvider = props => {
     setLoginPending(false);
     setLoginSuccess(false);
     setLoginError(null);
+    clearCart(); // clear cart when user logs out
   }
 
   return (
