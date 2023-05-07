@@ -22,7 +22,7 @@ export const HeaderBlock = styled.div`
   width: 23%;
 
   &:last-child {
-    width: 8%;
+    width: 12%;
   }
 `;
 

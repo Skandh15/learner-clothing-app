@@ -8,6 +8,7 @@ import { CartProvider } from './contexts/cart.context';
 import { ContextProvider } from './contexts/Auth.context';
 
 import './index.scss';
+import { OrderContext, OrderProvider } from './contexts/Order.context';
 
 const rootElement = document.getElementById('root');
 
@@ -16,9 +17,11 @@ render(
     <BrowserRouter>
       <CartProvider>
         <ContextProvider>
-          <CategoriesProvider>
-            <App />
-          </CategoriesProvider>
+          <OrderProvider>
+            <CategoriesProvider>
+              <App />
+            </CategoriesProvider>
+          </OrderProvider>
         </ContextProvider>
       </CartProvider>
     </BrowserRouter>

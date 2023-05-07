@@ -10,7 +10,9 @@ const initialState = {
   isLoginPending: false,
   loginError: null,
   signUpError: null,
-  userDisplayName: ''
+  userDisplayName: '',
+  userEmailId: '',
+  userId: ''
 }
 
 export const ContextProvider = props => {
@@ -22,6 +24,8 @@ export const ContextProvider = props => {
   const setLoginError = (loginError) => setState({ loginError });
   const setSignUpError = (signUpError) => setState({ signUpError });
   const setUserName = (userDisplayName) => setState({ userDisplayName });
+  const setUserEmailId = (userEmailId) => setState({ userEmailId });
+  const setUserId = (userId) => setState({ userId });
 
   const login = (email, password) => {
     setLoginPending(true);
@@ -33,6 +37,8 @@ export const ContextProvider = props => {
       if (200 === response.status) {
         setLoginSuccess(true);
         setUserName(response.data.firstName);
+        setUserEmailId(response.data.email);
+        setUserId(response.data.id);
 
       } else {
         console.log(response)
@@ -50,7 +56,8 @@ export const ContextProvider = props => {
       if (200 === response.status) {
         setLoginSuccess(true);
         setUserName(response.data.firstName);
-
+        setUserEmailId(response.data.email);
+        setUserId(response.data.id);
       } else {
         setSignUpError(response);
       }
