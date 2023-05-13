@@ -7,6 +7,7 @@ import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 import Order from './routes/order/order.component';
+import config from './config';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8132/api/categories/get-category-details')
+    fetch(config.categoryApiUrl)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -35,7 +36,7 @@ class App extends React.Component {
           error: error,
         });
       });
-  }
+    }
 
   render() {
     const { data, isLoading, error } = this.state;

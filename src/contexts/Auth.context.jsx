@@ -2,6 +2,7 @@ import React from 'react';
 import { useSetState } from 'react-use';
 import axios from 'axios';
 import { CartContext } from './cart.context'; // import CartContext here
+import config from '../config';
 
 export const AuthContext = React.createContext(null);
 
@@ -87,7 +88,7 @@ export const ContextProvider = props => {
 
 const userLogIn = async (email, password, callback) => {
   try {
-    const response = await axios.get(`http://localhost:8232/api/users/getDetails?email=${email}&password=${password}`);
+    const response = await axios.get(`${config.userLoginApiUrl}?email=${email}&password=${password}`);
     if (callback) {
       console.log(response);
       callback(response);
@@ -105,7 +106,7 @@ const userLogIn = async (email, password, callback) => {
 
 const userSignUp = async (firstName, lastName, email, password, callback) => {
   try {
-    const response = await axios.post('http://localhost:8232/api/users', {
+    const response = await axios.post(config.userSignupApiUrl, {
       firstName,
       lastName,
       email,

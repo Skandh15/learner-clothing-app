@@ -1,9 +1,9 @@
 import axios from 'axios';
-
+import config from '../../config';
 export const getCategoriesAndDocuments = async () => {
   let categoryMap = {};
   try {
-    const response = await axios.get('http://localhost:8132/api/products/get-products');
+    const response = await axios.get(config.productDetailsApiUrl);
     const productCategories = new Set(response.data.map(product => product.productCategory));
     const categories = [...productCategories];
     categoryMap = response.data.reduce((acc, curr) => {

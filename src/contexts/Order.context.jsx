@@ -3,6 +3,7 @@ import { useSetState } from 'react-use';
 import axios from 'axios';
 import { CartContext } from './cart.context';
 import { AuthContext } from './Auth.context';
+import config from '../config';
 
 export const OrderContext = React.createContext(null);
 
@@ -70,7 +71,7 @@ export const OrderProvider = props => {
 const placeOrderAxiosCall = async (requestObject, callback) => {
   try {
     const { emailId, products } = requestObject;
-    const response = await axios.post('http://localhost:8132/api/orders/place-order', {
+    const response = await axios.post(config.orderPlacingApiUrl, {
       emailId,
       products
     });
@@ -90,7 +91,8 @@ const placeOrderAxiosCall = async (requestObject, callback) => {
 
 const getPreviousOrderAxiosCall = async (userId, callback) => {
   try {
-    const response = await axios.get(`http://localhost:8132/api/orders/get-order-details?userId=${userId}`);
+    console.log("here")
+    const response = await axios.get(`${config.previousOrderDetailsApiUrl}?userId=${userId}`);
     if (callback) {
       console.log(response);
       callback(response);
